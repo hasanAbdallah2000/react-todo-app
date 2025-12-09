@@ -41,7 +41,7 @@ const handleKeyDown = (e) => {
   return (
     <div className='main-h-screen bg-slate-900 text-slate-100 flex items-center justify-center'>
       <div className='w-full max-w-md bg-slate-800 rounded-xl shadow-lg p-6'>
-      <h1 className='text-2xl font-semibold text-center mb-5'>To-Do App</h1>
+      <h1 className='text-2xl font-semibold text-center mb-5'>MY To-Do App</h1>
       <input 
         type="text"
          placeholder="Add a new task"
