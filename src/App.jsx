@@ -16,11 +16,15 @@ useEffect(() => {
 }, []);
 
 const handleAddTask = () => {
-  if (task.trim() === "") {
+  const trimmed = task.trim()
+  if (trimmed === "") {
     setTask("");
     return;
   }
-  setTasks([...tasks, task]);
+  setTasks(prev => [
+    ...prev, 
+    { text : trimmed , done: false}
+  ]);
     setTask("");
 };
 
@@ -36,6 +40,14 @@ const handleKeyDown = (e) => {
   if (e.key === "Enter") {
     handleAddTask();
   }
+};
+
+const handleToggleDone = (indexToToggle) => {
+  setTasks(prev =>
+    prev.map((task, index) =>
+      index === indexToToggle ? { ...task, done: !task.done } : task
+    )
+  );
 };
 
   return (
@@ -56,24 +68,34 @@ const handleKeyDown = (e) => {
       >Add Task</button>
 
       <div>
-
-      </div>
-
-      {tasks.length === 0 && (
+    {tasks.length === 0 && (
         <p className='text-xs text-slate-400 text-center'>No tasks added yet. Add your first one</p>
       )}
+      
       <ul className='space-y-2'>
       {tasks.map((t , index) => (
         <li key={index}
           className='flex items-center justify-between bg-slate-900 rounded-md px-3 py-2 text-sm'
-        >{t}
-        <button 
+        > <span
+        className={"flex-1 " + (t.done ? "linee-through text-slate-500" : "text-slate-100")}>{t.text}</span>
+
+        <div className='flex items-center gap-2'>
+          <button 
+          onClick={() => handleToggleDone(index)}
+          className='text-xs text-emerald-400 hover:text-emerald-300'
+          >
+            {t.done ? "Undo" : "Done"}
+          </button>
+          <button 
         onClick={() => handleDeleteTask(index)}
         className='text-xs text-red-400 hover:text-red-300'
         >Delete</button>
+        </div>
         </li>
       ))}
       </ul>
+      </div>
+
       {tasks.length !== 0 && (
       <button 
       onClick={handleDeleteAll}
